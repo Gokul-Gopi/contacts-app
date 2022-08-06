@@ -1,3 +1,5 @@
+import { Box } from "@chakra-ui/react";
+
 export default function Home() {
-  return <div>Hello world</div>;
+  return <Box>Hello world</Box>;
 }
