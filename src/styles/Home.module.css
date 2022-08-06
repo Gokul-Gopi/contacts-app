@@ -1,0 +1,13 @@
+.scrollContainer::-webkit-scrollbar {
+  width: 7px;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(232, 232, 232);
+  border-radius: 10px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background: rgb(188, 187, 187);
+  border-radius: 10px;
+}
