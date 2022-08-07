@@ -29,6 +29,7 @@ export default function Home() {
             return (
               <UserCard
                 key={`user${i}`}
+                id={user.id}
                 firstname={user.firstname}
                 lastname={user.lastname}
               />
