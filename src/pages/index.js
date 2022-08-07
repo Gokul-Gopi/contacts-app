@@ -1,11 +1,33 @@
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { UserCard } from "../components/UserCard";
 import mockUsersData from "../mock-data/users.json";
 import mockMessagesData from "../mock-data/messages.json";
 import { MessageDetailCard } from "../components/MessageDetailCard";
 import style from "../styles/Home.module.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { backend } from "../utils/api";
 
 export default function Home() {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    getMessage();
+  }, []);
+
+  const getMessage = async () => {
+    try {
+      const response = await axios.get(`${backend}/message`);
+      if (response?.status === 200) {
+        setMessages(response?.data?.data);
+      }
+    } catch (error) {}
+  };
+
+  if (messages.length < 1) {
+    return <Text>Loading</Text>;
+  }
+
   return (
     <Flex
       direction={{ base: "column", md: "row" }}
@@ -47,12 +69,12 @@ export default function Home() {
           Recent messages
         </Heading>
         <Box className={style.scrollContainer} height="25rem" overflowY="auto">
-          {mockMessagesData.messages.map((message, i) => {
+          {messages.map((message, i) => {
             return (
               <MessageDetailCard
                 key={`message${i}`}
-                name={message.name}
-                time={message.time}
+                name={`${message?.user?.firstname} ${message?.user?.lastname}`}
+                time={message.date}
                 otp={message.otp}
               />
             );

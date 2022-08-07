@@ -1,17 +1,16 @@
-import { Button, Flex, Textarea } from "@chakra-ui/react";
+import { Button, Flex, Textarea, useToast } from "@chakra-ui/react";
 import { FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { generateOtp } from "../utils";
+import { backend } from "../utils/api";
+import { generateOtp, getErrorMessage } from "../utils/helpers";
 
-const Compose = () => {
-  const [otp, setOtp] = useState();
-
-  useEffect(() => {
-    const otpGenerated = generateOtp();
-    setOtp(otpGenerated);
-  }, [otp]);
-
+const Compose = ({ otp }) => {
+  const toast = useToast();
+  const router = useRouter();
+  const [isLoading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -20,8 +19,37 @@ const Compose = () => {
     mode: "onChange",
   });
 
-  const sendMessageToUser = (data) => {
-    console.log(...data, otp);
+  //submit handler
+  const sendMessageToUser = async (data) => {
+    //fetching the user details from local-storate
+    const userDetails = JSON.parse(localStorage.getItem("user"));
+    delete userDetails.id;
+
+    try {
+      setLoading(true);
+      const response = await axios.post(`${backend}/message`, {
+        ...userDetails,
+        ...data,
+        otp: otp.toString(),
+      });
+      if (response?.status === 201) {
+        toast({
+          status: "success",
+          description: "Message sent successfully!",
+          isClosable: true,
+        });
+        router.push("/");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: `${getErrorMessage(error)}`,
+        status: "error",
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -66,7 +94,13 @@ const Compose = () => {
               {errors["message"]?.message}
             </FormErrorMessage>
           </FormControl>
-          <Button type="submit" width="100%" fontSize="1.1rem" mt="2rem">
+          <Button
+            type="submit"
+            width="100%"
+            fontSize="1.1rem"
+            mt="2rem"
+            isLoading={isLoading}
+          >
             Send
           </Button>
         </form>
@@ -75,4 +109,12 @@ const Compose = () => {
   );
 };
 
+export async function getStaticProps() {
+  const otp = generateOtp();
+  return {
+    props: {
+      otp,
+    },
+  };
+}
 export default Compose;
