@@ -51,4 +51,8 @@ const Contact = () => {
   );
 };
 
+Contact.getInitialProps = ({ query }) => {
+  return { query };
+};
+
 export default Contact;
