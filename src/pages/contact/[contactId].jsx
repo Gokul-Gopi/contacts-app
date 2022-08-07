@@ -12,6 +12,7 @@ const Contact = () => {
   const contactId = router.query?.contactId;
 
   useEffect(() => {
+    //query the user
     if (contactId) {
       const user = getUser();
       setUser(user);
@@ -20,7 +21,6 @@ const Contact = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  //query the user
   const getUser = () => {
     const user = usersMockData.users.find((user) => user.id === +contactId);
     return user;
@@ -43,7 +43,15 @@ const Contact = () => {
           {user?.firstname} {user?.lastname}
         </Text>
         <Text fontSize="1.1rem">{user?.mobile}</Text>
-        <Button onClick={() => router.push("/compose")} mt="2rem">
+        <Button
+          onClick={() => {
+            //setiting the selected user in local-storage
+            const userDetails = JSON.stringify(user);
+            localStorage.setItem("user", userDetails);
+            router.push(`/compose`);
+          }}
+          mt="2rem"
+        >
           Send Message
         </Button>
       </Flex>

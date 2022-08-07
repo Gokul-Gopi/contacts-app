@@ -1,11 +1,55 @@
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { UserCard } from "../components/UserCard";
 import mockUsersData from "../mock-data/users.json";
-import mockMessagesData from "../mock-data/messages.json";
 import { MessageDetailCard } from "../components/MessageDetailCard";
 import style from "../styles/Home.module.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { backend } from "../utils/api";
+import { Skeleton, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 
 export default function Home() {
+  const [messages, setMessages] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getMessage();
+  }, []);
+
+  const getMessage = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${backend}/message`);
+      if (response?.status === 200) {
+        setMessages(response?.data?.data);
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <Stack
+        display="flex"
+        align="center"
+        justify="center"
+        spacing={{ base: "2rem", md: "5rem" }}
+        height="100vh"
+      >
+        <Skeleton
+          height={{ base: "4rem", md: "5rem" }}
+          width={{ base: "80%", lg: "80rem" }}
+        />
+        <Skeleton
+          height={{ base: "4rem", md: "5rem" }}
+          width={{ base: "80%", lg: "80rem" }}
+        />
+      </Stack>
+    );
+  }
+
   return (
     <Flex
       direction={{ base: "column", md: "row" }}
@@ -47,12 +91,12 @@ export default function Home() {
           Recent messages
         </Heading>
         <Box className={style.scrollContainer} height="25rem" overflowY="auto">
-          {mockMessagesData.messages.map((message, i) => {
+          {messages.map((message, i) => {
             return (
               <MessageDetailCard
                 key={`message${i}`}
-                name={message.name}
-                time={message.time}
+                name={`${message?.user?.firstname} ${message?.user?.lastname}`}
+                time={message.date}
                 otp={message.otp}
               />
             );
