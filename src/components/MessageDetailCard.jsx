@@ -1,5 +1,9 @@
 import { Flex, Icon, Text } from "@chakra-ui/react";
 import { MdMessage } from "react-icons/md";
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+//import day js to show date-time in localised format in the message card
+dayjs.extend(LocalizedFormat);
 
 export const MessageDetailCard = ({ name, otp, time }) => {
   return (
@@ -10,7 +14,6 @@ export const MessageDetailCard = ({ name, otp, time }) => {
       position="relative"
       width="100%"
       p="0.8rem"
-      // bg="#f0ece2"
     >
       <Icon
         as={MdMessage}
@@ -24,9 +27,15 @@ export const MessageDetailCard = ({ name, otp, time }) => {
       <Text fontWeight="bold" fontSize="1.1rem">
         {name}
       </Text>
-      <Flex justify="space-between" mt="0.2rem">
+      <Flex justify="space-between" mt="0.5rem">
         <Text textDecor="underline">{otp}</Text>
-        <Text color="#b7b7b7">{time}</Text>
+        <Text
+          ml="1rem"
+          fontSize={{ base: "0.8rem", md: "1rem" }}
+          color="#b7b7b7"
+        >
+          {dayjs(time).format("LLL")}
+        </Text>
       </Flex>
     </Flex>
   );
