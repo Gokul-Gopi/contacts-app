@@ -29,6 +29,7 @@ const Compose = ({ otp }) => {
 
     try {
       setLoading(true);
+      //network call for sending the message
       const response = await axios.post(`${backend}/message`, {
         ...userDetails,
         ...data,
