@@ -4,8 +4,10 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { BiPaperPlane } from "react-icons/bi";
 import { backend } from "../utils/api";
 import { generateOtp, getErrorMessage } from "../utils/helpers";
+import NextLink from "next/link";
 
 const Compose = ({ otp }) => {
   const toast = useToast();
@@ -58,7 +60,6 @@ const Compose = ({ otp }) => {
         px={{ base: "2rem", lg: "3rem" }}
         py="3rem"
         borderRadius="8"
-        // boxShadow="2px 3px 7px 3px rgb(0 0 0 / 20%)"
         border="2px"
         borderColor="brand.primary"
         align="center"
@@ -106,6 +107,7 @@ const Compose = ({ otp }) => {
             fontSize="1.1rem"
             mt="2rem"
             isLoading={isLoading}
+            leftIcon={<BiPaperPlane />}
             loadingText="sending..."
             bg="brand.primary"
             color="white"
@@ -114,6 +116,18 @@ const Compose = ({ otp }) => {
           </Button>
         </form>
       </Flex>
+      <NextLink href="/contact">
+        <Button
+          mt="1rem"
+          border="2px"
+          borderColor="brand.primary"
+          color="brand.primary"
+          bg="brand.bg"
+          _hover={{ bg: "brand.bg" }}
+        >
+          Back to contacts
+        </Button>
+      </NextLink>
     </Flex>
   );
 };

@@ -1,10 +1,13 @@
-import { Box, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Icon, IconButton, Text } from "@chakra-ui/react";
 import { UserCard } from "../components/UserCard";
 import mockUsersData from "../mock-data/users.json";
 import style from "../styles/Home.module.css";
 import { BsTelephone } from "react-icons/bs";
+import { BiUndo } from "react-icons/bi";
+import { useRouter } from "next/router";
 
-export default function Home() {
+export default function Contact() {
+  const router = useRouter();
   return (
     <Flex
       direction={{ base: "column", md: "row" }}
@@ -21,7 +24,21 @@ export default function Home() {
         border="2px"
         borderColor="brand.primary"
         p="2rem"
+        position="relative"
       >
+        <IconButton
+          onClick={() => router.back()}
+          position="absolute"
+          top={{ base: "0.1rem", md: "0.4rem" }}
+          right={{ base: "0.2rem", md: "0.5rem" }}
+          aria-label="back-button"
+          icon={<BiUndo />}
+          bg="transparent"
+          color="#fb813e"
+          size="md"
+          fontSize={{ base: "20px", md: "25px" }}
+          _hover={{ bg: "transparent" }}
+        />
         <Flex color="white" align="center" mb="1rem">
           <Icon
             as={BsTelephone}

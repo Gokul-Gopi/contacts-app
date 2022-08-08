@@ -25,15 +25,18 @@ export const MessageDetailCard = ({ name, otp, time }) => {
         w="5"
         h="5"
       />
-      <Text fontWeight="bold" fontSize="1.1rem">
+      <Text fontWeight="bold" fontSize={{ base: "1rem", md: "1.1rem" }}>
         {name}
       </Text>
       <Flex justify="space-between" mt="0.5rem">
-        <Text textDecor="underline">{otp}</Text>
+        <Text textDecor="underline" fontSize={{ base: "0.9rem", md: "1rem" }} s>
+          {otp}
+        </Text>
         <Text
           ml="1rem"
           fontSize={{ base: "0.8rem", md: "1rem" }}
           color="#b7b7b7"
+          width={{ base: "6rem", md: "auto" }}
         >
           {dayjs(time).format("LLL")}
         </Text>
