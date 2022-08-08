@@ -21,7 +21,7 @@ const Compose = ({ otp }) => {
 
   //submit handler
   const sendMessageToUser = async (data) => {
-    //fetching the user details from local-storate
+    //fetching the user-details from local-storate
     const userDetails = JSON.parse(localStorage.getItem("user"));
     delete userDetails.id;
 
@@ -38,7 +38,7 @@ const Compose = ({ otp }) => {
           description: "Message sent successfully!",
           isClosable: true,
         });
-        router.push("/");
+        router.push("/message");
       }
     } catch (error) {
       toast({
@@ -57,8 +57,10 @@ const Compose = ({ otp }) => {
       <Flex
         px={{ base: "2rem", lg: "3rem" }}
         py="3rem"
-        borderRadius="7"
-        boxShadow="2px 3px 7px 3px rgb(0 0 0 / 20%)"
+        borderRadius="8"
+        // boxShadow="2px 3px 7px 3px rgb(0 0 0 / 20%)"
+        border="2px"
+        borderColor="brand.primary"
         align="center"
         direction="column"
         width={{ base: "90%", lg: "35rem" }}
@@ -68,11 +70,15 @@ const Compose = ({ otp }) => {
           style={{ width: "100%", textAlign: "center" }}
         >
           <FormControl isInvalid={errors["message"] ? true : false}>
-            <FormLabel fontSize="1.2rem">Compose your message</FormLabel>
+            <FormLabel color="white" fontSize="1.2rem">
+              Compose your message
+            </FormLabel>
             <Textarea
               defaultValue={`Hey, your OTP is ${
                 otp ? otp : "<Failed to generate otp>"
               }`}
+              color="white"
+              borderColor="brand.primary"
               resize="none"
               height="10rem"
               {...register("message", {
@@ -100,6 +106,9 @@ const Compose = ({ otp }) => {
             fontSize="1.1rem"
             mt="2rem"
             isLoading={isLoading}
+            loadingText="sending..."
+            bg="brand.primary"
+            color="white"
           >
             Send
           </Button>
