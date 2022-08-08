@@ -14,6 +14,7 @@ export const MessageDetailCard = ({ name, otp, time }) => {
       position="relative"
       width="100%"
       p="0.8rem"
+      color="white"
     >
       <Icon
         as={MdMessage}
