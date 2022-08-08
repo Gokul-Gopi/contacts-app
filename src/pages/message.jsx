@@ -21,6 +21,7 @@ const Message = () => {
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
 
+  //gets the messages sent, from DB
   const getMessage = async () => {
     setLoading(true);
     try {
